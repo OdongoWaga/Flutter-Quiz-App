@@ -30,7 +30,19 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
 
-  int questionNumber = 0;
+  void checkAnswer(bool userPickedAnswer) {
+    bool correctAnswer = quiz.getCorrectAnswer();
+
+    if (correctAnswer == userPickedAnswer) {
+      scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+    } else {
+      scoreKeeper.add(Icon(Icons.close, color: Colors.red));
+    }
+
+    setState(() {
+      quiz.nextQuestion();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +56,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                quiz.qbank[questionNumber].questionText,
+                quiz.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -68,17 +80,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = quiz.qbank[questionNumber].questionAnswer;
-
-                if (correctAnswer == true) {
-                  print('You got one');
-                } else {
-                  print('Missed it');
-                }
-
-                setState(() {
-                  questionNumber++;
-                });
+                checkAnswer(true);
               },
             ),
           ),
@@ -96,16 +98,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = quiz.qbank[questionNumber].questionAnswer;
-                if (correctAnswer == true) {
-                  print('You got one');
-                } else {
-                  print('Missed it');
-                }
-
-                setState(() {
-                  questionNumber++;
-                });
+                checkAnswer(false);
               },
             ),
           ),

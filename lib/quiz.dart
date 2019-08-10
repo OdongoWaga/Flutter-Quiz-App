@@ -43,4 +43,16 @@ class Quiz {
   bool getCorrectAnswer() {
     return _qbank[_questionNumber].questionAnswer;
   }
+
+  bool isFinished() {
+    if (_questionNumber >= _qbank.length - 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void reset() {
+    _questionNumber = 0;
+  }
 }
